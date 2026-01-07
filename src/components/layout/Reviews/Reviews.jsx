@@ -1,33 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaStar, FaRegStar } from "react-icons/fa";
+import reviewsData from "../../../data/reviewsData";
 
 import SectionTitle from "../../common/SectionTitle";
-import "./Reviews.css";
+import "./reviews.css";
 
 const Reviews = () => {
-  const reviews = [
-    {
-      name: "John D.",
-      text: "Amazing quality prints! Super fast turnaround time. Highly recommended!",
-      rating: 5,
-    },
-    {
-      name: "Maria S.",
-      text: "Great customer service and the shirts came out perfect. Will order again!",
-      rating: 4,
-    },
-    {
-      name: "Kevin P.",
-      text: "Affordable yet premium quality materials. Really impressed with the results!",
-      rating: 5,
-    },
-    {
-      name: "Anne T.",
-      text: "The colors were vibrant and the details were sharp. Love it!",
-      rating: 5,
-    },
-  ];
-
   const [current, setCurrent] = useState(0);
   const sliderRef = useRef(null);
   const hasMounted = useRef(false);
@@ -63,7 +41,7 @@ const Reviews = () => {
           ref={sliderRef}
           className="flex overflow-x-auto gap-4 snap-x snap-mandatory scrollbar-hide"
         >
-          {reviews.map((review, index) => (
+          {reviewsData.map((review, index) => (
             <div
               key={index}
               className="min-w-full snap-center py-10 px-6 shadow-lg flex flex-col items-center text-center"
@@ -88,7 +66,7 @@ const Reviews = () => {
 
       {/* ---------- DESKTOP GRID ---------- */}
       <div className="hidden md:grid grid-cols-3 gap-6">
-        {reviews.slice(0, 3).map((review, index) => (
+        {reviewsData.slice(0, 3).map((review, index) => (
           <div
             key={index}
             className="py-20 px-6 shadow-lg flex flex-col items-center text-center hover:scale-105 transition"

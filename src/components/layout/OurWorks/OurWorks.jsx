@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import ourWorksData from "../../../data/ourWorksData";
-import "./OurWorks.css";
+import "./ourworks.css";
 
 function OurWorks() {
   const sliderRef = useRef(null);
