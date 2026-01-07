@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+/* main background */
+.main_background {
+  /* background-image: url("/src/assets/images/fella-bg.JPG"); */
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+
+#hero_section {
+  background-image: url("/src/assets/images/fella-hero-bg.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+}

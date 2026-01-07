@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+#banner_section {
+  background-image: url("/src/assets/images/fella-banner-1.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+/* #getstarted_section {
+  background-image: url("/src/assets/images/fella-banner-1.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+} */
