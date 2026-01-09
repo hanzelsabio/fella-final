@@ -1,7 +1,5 @@
 import React from "react";
 import "./about.css";
-import Reviews from "../Reviews/Reviews";
-import Footer from "../Footer/Footer";
 
 import SectionTitle from "../../common/SectionTitle";
 

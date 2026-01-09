@@ -11,14 +11,24 @@ export const ProductProvider = ({ children }) => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    try {
-      setProducts(productsData);
-      setServices(servicesData);
-      setLoading(false);
-    } catch (err) {
-      setError("Failed to load data");
-      setLoading(false);
-    }
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+
+        // Simulate API delay
+        await new Promise((res) => setTimeout(res, 300));
+
+        setProducts(productsData);
+        setServices(servicesData);
+
+        setLoading(false);
+      } catch (err) {
+        setError("Failed to load data");
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (

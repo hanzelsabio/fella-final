@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from "react";
+import announcementData from "../../../data/announcementData";
 import { X } from "lucide-react";
 
 function Announcement() {
-  const messages = [
-    "PRINT YOUR VISION WITH FELLA SCREEN PRINTS",
-    "ENJOY QUALITY PRINTS AT THE BEST PRICE",
-    "FAST TURNAROUND — NATIONWIDE SHIPPING",
-    "CUSTOM SHIRTS, HOODIES, TOTES & MORE",
-  ];
-
   const [index, setIndex] = useState(0);
   const [visible, setVisible] = useState(true);
 
   // Auto-slide every 12 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % messages.length);
+      setIndex((prev) => (prev + 1) % announcementData.length);
     }, 12000);
 
     return () => clearInterval(interval);
@@ -43,7 +37,7 @@ function Announcement() {
           display: "flex",
         }}
       >
-        {messages.map((msg, i) => (
+        {announcementData.map((msg, i) => (
           <div key={i} className="w-full flex-shrink-0 text-center px-6">
             {msg}
           </div>
