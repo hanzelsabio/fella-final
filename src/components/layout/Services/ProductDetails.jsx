@@ -11,6 +11,8 @@ import Footer from "../Footer/Footer";
 import Button from "../../common/Button";
 import slugify from "../../helper/slugify";
 
+import ColorSwatches from "../../common/ColorSwatches/ColorSwatches";
+
 import "./product.css";
 
 function ProductDetails() {
@@ -20,15 +22,19 @@ function ProductDetails() {
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
 
-  const allProducts = [...products, ...services];
+  /** All products */
+  const allProducts = useMemo(
+    () => [...products, ...services],
+    [products, services]
+  );
 
-  // Find product by slug
+  /** Current product */
   const product = useMemo(
     () => allProducts.find((p) => slugify(p.title) === slug),
     [allProducts, slug]
   );
 
-  // States
+  /** State */
   const [isFading, setIsFading] = useState(false);
   const [recentlyViewed, setRecentlyViewed] = useState([]);
   const [selectedService, setSelectedService] = useState(null);
@@ -37,16 +43,15 @@ function ProductDetails() {
     location.state?.color?.name || null
   );
 
-  // Compute selected swatch
+  /** Selected swatch */
   const selectedSwatch = useMemo(() => {
     if (!product || !selectedColorName) return null;
     return product.colorways?.find((c) => c.name === selectedColorName);
   }, [product, selectedColorName]);
 
-  // Initialize default color
+  /** Initialize default color */
   useEffect(() => {
     if (!product?.colorways?.length) return;
-
     const black = product.colorways.find(
       (c) => c.name.toLowerCase() === "black"
     );
@@ -56,23 +61,38 @@ function ProductDetails() {
     setActiveImage(defaultColor.image || product.image);
   }, [product, location.state]);
 
+  /** Thumbnails */
   const thumbnails = useMemo(() => {
     if (!product) return [];
     return product.images?.length ? product.images : [product.image];
   }, [product]);
 
-  // Open modal and update URL
-  const openModal = (service) => setSelectedService(service);
-  const closeModal = () => setSelectedService(null);
+  /** Services for modal */
+  const clothingLineService20 = useMemo(
+    () =>
+      services.find((s) => s.title.toLowerCase().includes("20 pcs clothing")),
+    [services]
+  );
+  const noMinimumService = useMemo(
+    () => services.find((s) => s.title.toLowerCase().includes("no minimum")),
+    [services]
+  );
 
-  // Reset scroll and modal on product change
+  /** Featured products */
+  const featured = useMemo(() => {
+    return products
+      .filter((p) => slugify(p.title) !== slug)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 4);
+  }, [products, slug]);
+
+  /** Effects */
   useEffect(() => {
     window.scrollTo(0, 0);
     setSelectedService(null);
     setSearchParams({});
   }, [slug, setSearchParams]);
 
-  // Recently viewed products
   useEffect(() => {
     if (!product) return;
     const stored = JSON.parse(localStorage.getItem("recentlyViewed")) || [];
@@ -86,7 +106,6 @@ function ProductDetails() {
     setRecentlyViewed(updated.slice(0, 5));
   }, [product]);
 
-  // Restore modal state from URL
   useEffect(() => {
     if (!services.length) return;
     const serviceSlug = searchParams.get("service");
@@ -94,31 +113,7 @@ function ProductDetails() {
     setSelectedService(service || null);
   }, [services, searchParams]);
 
-  // Loading and error handling
-  if (!products.length && !services.length) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p>Loading product...</p>
-      </div>
-    );
-  }
-
-  if (!product) {
-    return (
-      <div className="product_section flex justify-center items-center h-screen">
-        <p>Product not found.</p>
-      </div>
-    );
-  }
-
-  // Featured products
-  const featured = useMemo(() => {
-    return products
-      .filter((p) => slugify(p.title) !== slug)
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 4);
-  }, [products, slug]);
-
+  /** Handlers */
   const handleProductClick = (item) => {
     setIsFading(true);
     setTimeout(() => {
@@ -131,12 +126,42 @@ function ProductDetails() {
     navigate("/contact-form", { state: { service: selectedService, product } });
   };
 
-  // Services
-  const clothingLineService20 = services.find((s) =>
-    s.title.toLowerCase().includes("20 pcs clothing")
-  );
-  const noMinimumService = services.find((s) =>
-    s.title.toLowerCase().includes("no minimum")
+  const openModal = (service) => setSelectedService(service);
+  const closeModal = () => setSelectedService(null);
+
+  /** Loading & Error */
+  if (!products.length && !services.length)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p>Loading product...</p>
+      </div>
+    );
+
+  if (!product)
+    return (
+      <div className="product_section flex justify-center items-center h-screen">
+        <p>Product not found.</p>
+      </div>
+    );
+
+  /** Components */
+  const Thumbnails = () => (
+    <div className="product_details_thumbnail flex overflow-x-auto max-w-lg scrollbar-hide">
+      {thumbnails.map((img, index) => (
+        <button
+          key={index}
+          onClick={() => setActiveImage(img)}
+          className="flex-shrink-0 p-1 transition-all"
+          style={{ cursor: "pointer" }}
+        >
+          <img
+            src={img}
+            alt={`Thumbnail ${index + 1}`}
+            className="w-30 h-30 object-contain drop-shadow-md"
+          />
+        </button>
+      ))}
+    </div>
   );
 
   return (
@@ -149,6 +174,7 @@ function ProductDetails() {
         {/* Product Details */}
         <section className="product_details_section max-w-6xl mx-auto py-10 md:py-20 px-8 sm:px-20">
           <div className="product_details_body grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+            {/* Image Block */}
             <div className="product_details_image_block flex flex-col items-center">
               <div className="product_details_default_image flex flex-col items-center gap-4">
                 {activeImage && (
@@ -158,73 +184,26 @@ function ProductDetails() {
                     className="w-full max-w-md drop-shadow-[0px_25px_25px_rgba(0,0,0,0.5)] object-contain"
                   />
                 )}
-
-                {/* Thumbnails */}
-                {thumbnails.length > 1 && (
-                  <div className="product_details_thumbnail flex overflow-x-auto max-w-lg scrollbar-hide">
-                    {thumbnails.map((img, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setActiveImage(img)}
-                        className="flex-shrink-0 p-1 transition-all"
-                        style={{ cursor: "pointer" }}
-                      >
-                        <img
-                          src={img}
-                          alt={`Thumbnail ${index + 1}`}
-                          className="w-30 h-30 object-contain drop-shadow-md"
-                        />
-                      </button>
-                    ))}
-                  </div>
-                )}
+                {thumbnails.length > 1 && <Thumbnails />}
               </div>
             </div>
 
+            {/* Content Block */}
             <div className="product_details_content_block space-y-4 lg:text-left">
               <h1 className="text-center text-xl md:text-2xl font-medium text-gray-800 py-10">
                 {product.title}
               </h1>
 
-              {/* Colorway Swatches */}
               {product.colorways?.length > 0 && (
-                <div className="flex flex-wrap items-center gap-4">
-                  {/* Label */}
-                  <p className="text-sm font-medium w-24">
-                    Color:{" "}
-                    <span className="font-semibold">
-                      {selectedSwatch?.name}
-                    </span>
-                  </p>
-
-                  {/* Swatches */}
-                  <div className="flex gap-2">
-                    {product.colorways.map((swatch) => {
-                      const isActive = selectedColorName === swatch.name;
-                      return (
-                        <div
-                          key={swatch.name}
-                          className="relative flex-shrink-0 group"
-                        >
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setSelectedColorName(swatch.name);
-                              setActiveImage(swatch.image || product.image);
-                            }}
-                            className={`w-7 h-7 border transition border-gray-300 hover:border-black ${
-                              isActive ? "ring-1 ring-black" : ""
-                            }`}
-                            style={{
-                              backgroundColor: swatch.color,
-                              cursor: "pointer",
-                            }}
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
+                <ColorSwatches
+                  colorways={product.colorways}
+                  selectedColorName={selectedColorName}
+                  onSelect={(swatch) => {
+                    setSelectedColorName(swatch.name);
+                    setActiveImage(swatch.image || product.image);
+                  }}
+                  showLabel={true} // Show the color name label
+                />
               )}
 
               {product.body && (
@@ -323,6 +302,7 @@ function ProductDetails() {
                     ))}
                   </ol>
                 )}
+                3
               </div>
             </div>
             <div className="mt-6 flex justify-end gap-4">
