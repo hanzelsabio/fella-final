@@ -5,7 +5,7 @@ import "./assets/styles/global.css";
 import { BrowserRouter } from "react-router-dom";
 
 import ScrollToTop from "./components/common/ScrollToTop.jsx";
-import ScrollToHash from "./components/helper/ScrollToHash";
+import ScrollToHash from "./components/helper/ScrollToHash.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

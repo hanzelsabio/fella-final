@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import Footer from "../components/layout/Footer/Footer";
 
-import "../../src/assets/styles/global.css";
+import "../assets/styles/global.css";
 
 function NotFound() {
   return (
