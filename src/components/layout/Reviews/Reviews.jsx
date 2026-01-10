@@ -31,7 +31,7 @@ const Reviews = () => {
   return (
     <section
       id="reviews"
-      className="reviews_section bg-black text-white py-30 px-6"
+      className="reviews_section bg-black text-white py-40 px-6"
     >
       <SectionTitle title="Client Reviews" />
 
