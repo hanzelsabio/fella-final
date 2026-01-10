@@ -6,7 +6,7 @@ import SectionTitle from "../../common/SectionTitle";
 const About = () => {
   return (
     <section id="about-us" className="about_section">
-      <div className="max-w-2xl mx-auto py-60 px-8 md:py-50">
+      <div className="max-w-2xl mx-auto pt-50 pb-70 px-8 md:py-50">
         <div className="absolute inset-0 bg-black/70 z-0"></div>
         <div className="relative z-10 text-white text-center">
           <SectionTitle title="About Us" />
