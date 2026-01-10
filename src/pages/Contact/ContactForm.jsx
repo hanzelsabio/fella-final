@@ -7,6 +7,7 @@ import SectionTitle from "../../components/common/SectionTitle";
 import Button from "../../components/common/Button";
 
 import "./contact.css";
+import FAQ from "../../components/layout/FAQs/FAQ";
 
 function ContactForm() {
   const { state } = useLocation();

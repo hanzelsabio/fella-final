@@ -237,7 +237,7 @@ function ProductDetails() {
         </section>
 
         {/* Featured Products */}
-        <section className="max-w-6xl mx-auto pt-20 md:pt-0 pb-30 px-8">
+        <section className="max-w-6xl mx-auto pt-10 pb-20 px-8">
           <h2 className="text-2xl font-medium text-gray-800 text-center">
             Featured Products
           </h2>
@@ -255,7 +255,7 @@ function ProductDetails() {
                     alt={item.title}
                     className="w-full h-full drop-shadow-[0px_25px_25px_rgba(0,0,0,0.5)] object-contain mb-4"
                   />
-                  <h3 className="text-sm font-medium text-gray-800 line-clamp-2 mb-1">
+                  <h3 className="text-md font-medium text-gray-800 line-clamp-2 mb-1">
                     {item.title}
                   </h3>
                 </button>
@@ -302,7 +302,6 @@ function ProductDetails() {
                     ))}
                   </ol>
                 )}
-                3
               </div>
             </div>
             <div className="mt-6 flex justify-end gap-4">
