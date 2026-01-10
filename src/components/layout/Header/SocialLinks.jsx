@@ -27,7 +27,7 @@ function SocialLinks() {
       rel="noopener noreferrer"
       className="hover:text-green-500 transition"
     >
-      <Icon className="w-5 h-5" />
+      <Icon className="w-6 h-6" />
     </a>
   ));
 }

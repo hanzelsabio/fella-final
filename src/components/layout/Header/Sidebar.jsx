@@ -33,7 +33,7 @@ export default function Sidebar({ open, onClose }) {
         </div>
 
         {/* Navigation */}
-        <nav className="flex flex-col space-y-4 text-lg text-gray-700 px-8">
+        <nav className="flex flex-col space-y-4 text-2xl text-gray-700 px-8 gap-2">
           <NavLinks onClick={onClose} />
         </nav>
 

@@ -42,7 +42,6 @@ const ContactPage = () => {
         </div>
       </div>
       <GetStarted />
-      {/* <About /> */}
       <FAQ />
       <Reviews />
       <div className="bg-black text-white">
